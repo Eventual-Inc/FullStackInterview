@@ -32,6 +32,35 @@ function App() {
     }
   };
 
+  const handleUpdateItem = async () => {
+    const response = await fetch(`http://localhost:8000/items/${itemId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: itemName, description: itemDescription }),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      setFetchedItem(data.item);
+      setFetchError(null);
+    } else {
+      setFetchedItem(null);
+      setFetchError(data.error);
+    }
+  };
+
+  const handleDeleteItem = async () => {
+    const response = await fetch(`http://localhost:8000/items/${itemId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: itemName, description: itemDescription }),
+    });
+    const data = await response.json();
+    setItemId(data.item_id);
+  };
   return (
     <div className="App">
       <h1>Create and Fetch Items</h1>

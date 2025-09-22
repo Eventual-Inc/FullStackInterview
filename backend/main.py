@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.responses import Response  # Add this import
+
 from pydantic import BaseModel
 import uuid
 
@@ -21,7 +23,6 @@ class Item(BaseModel):
     name: str
     description: str
 
-
 @app.post("/create-item/")
 def create_item(item: Item):
     item_id = str(uuid.uuid4())
@@ -35,3 +36,22 @@ def get_items(item_id: str):
     if item:
         return {"item_id": item_id, "item": item}
     return {"error": "Item not found"}, 404
+
+@app.put("/items/{item_id}")
+def update_item(item_id: str, item: Item):
+    if item_id in data_store.keys():
+            data_store[id] = item 
+            return {"item_id": item_id, "item": item}
+    return {"error": "Item not found"}, 404
+
+@app.delete("items/{item_id}")
+def delete_item(item_id: str):
+    if item_id not in data_store.keys():
+        return {"error": "Item not found"}, 404
+    del data_store[item_id]
+    return Response(status_code=204) 
+
+
+
+
+    
